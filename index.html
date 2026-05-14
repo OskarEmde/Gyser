@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horror Game</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+<main class="game">
+
+    <!-- INTRO VIDEO -->
+    <section class="scene active" id="scene-intro">
+        <video class="bg-video" id="introVideo" autoplay muted loop playsinline>
+            <source src="assest/video/eksempelintro.mp4" type="video/mp4">
+        </video>
+
+        <div class="text-box">
+            <h1>Velkommen</h1>
+            <p>Klik på skærmen for at starte.</p>
+            <p>Find genstande, løs gåder og overlev.</p>
+        </div>
+
+    </section>
+
+    <!-- INTRODUKTIONS SCENE -->
+    <section class="scene" id="scene-introduction">
+        <img class="background" src="" alt="Introduktion">
+
+        <div class="text-box">
+            <h1>Helvede</h1>
+            <p>
+                Ritualet gik galt. Du vågner et sted, der ikke længere føles som verden.
+            </p>
+            <p>
+                Din ven, som du lavede ritualet med, er ikke sig selv længere.
+                Noget har taget over. Noget, der kalder sig Satan.
+            </p>
+
+            <button class="primary-button" data-next="scene-bag">
+                Fortsæt
+            </button>
+        </div>
+    </section>
+
+    <!-- SCENE 2 -->
+    <section class="scene" id="scene-bag">
+        <img class="background" src="assest/billeder/eksempelscene2.png" alt="Scene 2 baggrund">
+
+        <button class="click-object bag" data-next="scene-inside-bag">
+            Taske
+        </button>
+    </section>
+
+    <!-- SCENE 3: INDE I TASKEN -->
+    <section class="scene" id="scene-inside-bag">
+        <img class="background" src="" alt="Inde i tasken">
+
+        <button class="item flashlight" data-item="flashlight">Lommelygte</button>
+        <button class="item key" data-item="key">Nøgle</button>
+        <button class="item book" data-item="bible">Biblen</button>
+
+        <div class="text-box small">
+            Saml alle 3 genstande op.
+        </div>
+    </section>
+
+    <!-- SCENE 4 -->
+    <section class="scene" id="scene-door">
+        <img class="background" src="" alt="Tilbage i rummet">
+
+        <button class="arrow door-arrow" data-next="scene-room">
+            ➜
+        </button>
+
+        <div class="hotbar" id="hotbar"></div>
+    </section>
+
+    <!-- SCENE 5: RUM MED KOMMODE -->
+    <section class="scene" id="scene-room">
+        <img class="background" src="" alt="Nyt rum">
+
+        <button class="click-object dresser" id="dresser">
+            Kommode
+        </button>
+
+        <button class="arrow hidden" id="next-door-arrow" data-next="scene-demon-room">
+            ➜
+        </button>
+
+        <div class="riddle-box hidden" id="riddleBox">
+            <h2>Gåde</h2>
+            <p>Jeg følger dig altid, men forsvinder i mørket. Hvad er jeg?</p>
+
+            <button data-answer="wrong">Et spøgelse</button>
+            <button data-answer="correct">Din skygge</button>
+            <button data-answer="wrong">En dør</button>
+        </div>
+
+        <div class="hotbar" id="hotbar2"></div>
+    </section>
+
+    <!-- DØD SCENE -->
+    <section class="scene death-scene" id="scene-death">
+        <h1>Du døde</h1>
+        <p>Du valgte forkert...</p>
+
+        <button onclick="restartFromCheckpoint()">
+            Start fra sidste checkpoint
+        </button>
+
+        <button onclick="restartGame()">
+            Start helt forfra
+        </button>
+    </section>
+
+    <!-- DEMON ROOM -->
+    <section class="scene" id="scene-demon-room">
+        <img class="background" src="" alt="Dæmon rum">
+
+        <audio id="whisperSound" src=""></audio>
+
+        <div class="timer">
+            Tid: <span id="timer">15</span>
+        </div>
+
+        <div class="demon-instruction">
+            Fang de 3 dæmoner før tiden løber ud!
+        </div>
+
+        <button class="demon demon1">Dæmon</button>
+        <button class="demon demon2">Dæmon</button>
+        <button class="demon demon3">Dæmon</button>
+
+        <button class="locked-door" id="lockedDoor">
+            Låst dør
+        </button>
+
+        <div class="text-box small hidden" id="lockedText">
+            Døren er låst. Brug nøglen fra din hotbar.
+        </div>
+
+        <div class="hotbar" id="hotbar3"></div>
+    </section>
+
+    <!-- SCENE 7: NYT RUM EFTER LÅST DØR -->
+    <section class="scene" id="scene-after-locked-door">
+        <img class="background" src="" alt="Nyt rum efter låst dør">
+
+        <audio id="screamSound" src=""></audio>
+        <audio id="thoughtSound" src=""></audio>
+
+        <div class="text-box small">
+            Du hører et skrig... noget er tæt på. GEM DIG!!!
+        </div>
+
+        <button class="click-object closet" id="closet">
+            Skab
+        </button>
+
+        <div class="hotbar" id="hotbar4"></div>
+    </section>
+
+    <!-- SCENE 8: INDE I SKABET -->
+    <section class="scene" id="scene-inside-closet">
+        <img class="background" src="" alt="Inde i skabet">
+
+        <audio id="closetSound" src=""></audio>
+
+        <div class="text-box small">
+            Du gemmer dig i skabet. Klik når du tør kigge ud...
+        </div>
+    </section>
+
+    <!-- SCENE 9: JUMPSCARE -->
+    <section class="scene jumpscare-scene" id="scene-jumpscare">
+        <img class="background" src="" alt="Jumpscare">
+
+        <audio id="jumpscareSound" src=""></audio>
+
+        <h1>!</h1>
+    </section>
+
+    <!-- SCENE 10: DIALOG MED DÆMON -->
+    <section class="scene" id="scene-demon-dialog">
+        <img class="background" src="" alt="Dæmon dialog">
+
+        <div class="dialog-box">
+            <h2>Dæmonen</h2>
+            <p>
+                Du kan ikke løbe længere. Du har båret lyset hele tiden...
+                men tør du bruge det?
+            </p>
+
+            <button id="attackDemonButton" type="button">
+                Angrib dæmonen
+            </button>
+
+            <button id="useFlashlightButton" type="button">
+                Brug lommelygten
+            </button>
+        </div>
+
+        <div class="hotbar" id="hotbar5"></div>
+    </section>
+
+    <!-- SCENE: EFTER DÆMONEN FLYGTER -->
+    <section class="scene" id="scene-two-doors">
+        <img class="background" src="" alt="To døre">
+
+        <div class="text-box small">
+            Dæmonen flygter. Du kravler ud af skabet og ser to døre.
+        </div>
+
+        <button class="final-door final-door-left" id="leftFinalDoor">
+            Venstre dør
+        </button>
+
+        <button class="final-door final-door-right" id="rightFinalDoor">
+            Højre dør
+        </button>
+
+        <div class="hotbar" id="hotbar6"></div>
+    </section>
+
+    <!-- SATAN KOMMER FREM -->
+    <section class="scene satan-scene" id="scene-satan-appears">
+        <img class="background" src="" alt="Satan kommer frem">
+
+        <div class="dialog-box">
+            <h2>Satan</h2>
+            <p id="satanDialogText">
+                Troede du virkelig, at dørene ville åbne for dig?
+            </p>
+
+            <div class="satan-reply-buttons">
+                <button id="satanReplyOne"></button>
+                <button id="satanReplyTwo"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SATANS GÅDE -->
+    <section class="scene" id="scene-satan-riddle">
+        <img class="background" src="" alt="Satans gåde">
+
+        <div class="dialog-box">
+            <h2>Satan</h2>
+            <p>
+                Én dør lader dig slippe fri. Den anden tvinger dig til at møde sandheden.
+                Og foran dig ligger en pistol.
+            </p>
+
+            <button id="chooseLeftDoor">
+                Vælg venstre dør
+            </button>
+
+            <button id="chooseRightDoor">
+                Vælg højre dør
+            </button>
+
+        </div>
+    </section>
+
+    <!-- VENSTRE DØR SLUTNING -->
+    <section class="scene win-scene" id="scene-ending-escape">
+        <h1>Du slap fri</h1>
+        <p>
+            Du forlader din ven og flygter ud af helvede.
+            Du overlever, men du ved, at du efterlod noget menneskeligt bag dig.
+        </p>
+
+        <button onclick="restartGame()">Spil igen</button>
+    </section>
+
+    <!-- HØJRE DØR VALG -->
+    <section class="scene" id="scene-right-door-choice">
+        <img class="background" src="" alt="Sidste valg">
+
+        <div class="dialog-box">
+            <h2>Din ven</h2>
+            <p>
+                Bag døren ser du din ven fanget bag Satans skikkelse.
+                Du har ét sidste valg.
+            </p>
+
+            <button id="shootSatan">
+                Skyd Satan
+            </button>
+
+            <button id="useBible">
+                Brug Biblen
+            </button>
+        </div>
+
+        <div class="hotbar" id="hotbar7"></div>
+    </section>
+
+    <!-- GOOD ENDING -->
+    <section class="scene win-scene" id="scene-ending-save-friend">
+        <h1>Du reddede din ven</h1>
+        <p>
+            Du åbner bogen og læser ordene højt. Satan skriger, lyset bryder frem,
+            og din ven falder sammen — fri.
+        </p>
+
+        <button onclick="restartGame()">Spil igen</button>
+    </section>
+
+</main>
+
+</body>
+
+
+</html>

@@ -1,0 +1,474 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #050505;
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.game {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.scene {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.scene.active {
+    display: block;
+}
+
+.background,
+.bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #111;
+}
+
+.text-box {
+    position: absolute;
+    left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid #8b0000;
+    padding: 24px;
+    width: min(700px, 90%);
+    text-align: center;
+    border-radius: 12px;
+}
+
+.text-box.small {
+    font-size: 18px;
+    padding: 16px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    color: white;
+    background: rgba(100, 0, 0, 0.85);
+    border: 1px solid #ff2b2b;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+button:hover {
+    background: rgba(170, 0, 0, 0.95);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Klikbare objekter */
+.click-object,
+.item,
+.demon,
+.locked-door,
+.arrow {
+    position: absolute;
+}
+
+/* Scene 2 taske */
+.bag {
+    left: 45%;
+    top: 65%;
+}
+
+/* Genstande i tasken */
+.flashlight {
+    left: 25%;
+    top: 45%;
+}
+
+.key {
+    left: 48%;
+    top: 50%;
+}
+
+.book {
+    left: 68%;
+    top: 42%;
+}
+
+/* Scene 4 pil */
+.door-arrow {
+    right: 10%;
+    top: 45%;
+    font-size: 42px;
+}
+
+/* Kommode */
+.dresser {
+    left: 45%;
+    top: 55%;
+}
+
+/* Pil efter gåde */
+#next-door-arrow {
+    right: 12%;
+    top: 48%;
+    font-size: 42px;
+}
+
+/* Gåde */
+.riddle-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #8b0000;
+    padding: 25px;
+    width: min(500px, 90%);
+    border-radius: 14px;
+    text-align: center;
+}
+
+.riddle-box button {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+}
+
+/* Hotbar */
+.hotbar {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid #444;
+    padding: 12px;
+    border-radius: 14px;
+}
+
+.hotbar-item {
+    padding: 10px 14px;
+    background: #1b1b1b;
+    border: 1px solid #777;
+    border-radius: 8px;
+}
+
+.hotbar-item.selected {
+    border-color: red;
+    background: #400;
+}
+
+/* Timer */
+.timer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 14px 20px;
+    border: 1px solid red;
+    border-radius: 10px;
+    font-size: 24px;
+}
+
+/* Dæmoner */
+.demon1 {
+    left: 20%;
+    top: 35%;
+}
+
+.demon2 {
+    left: 50%;
+    top: 25%;
+}
+
+.demon3 {
+    left: 72%;
+    top: 55%;
+}
+
+.locked-door {
+    right: 8%;
+    top: 45%;
+}
+
+/* Death / win */
+.death-scene,
+.win-scene {
+    display: none;
+    place-items: center;
+    text-align: center;
+    background: #050505;
+}
+
+.death-scene.active,
+.win-scene.active {
+    display: grid;
+}
+
+.death-scene h1 {
+    font-size: 70px;
+    color: red;
+}
+
+.win-scene h1 {
+    font-size: 70px;
+    color: #8cff8c;
+}
+
+#scene-intro,
+#scene-intro .bg-video,
+#scene-intro .text-box {
+    cursor: pointer;
+}
+
+/* Skab */
+.closet {
+    left: 65%;
+    top: 45%;
+}
+
+/* Dialog med dæmon */
+.dialog-box {
+    position: absolute;
+    left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%);
+    width: min(750px, 90%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #8b0000;
+    padding: 24px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.dialog-box h2 {
+    color: #ff2b2b;
+    margin-top: 0;
+}
+
+.dialog-box button {
+    margin: 10px;
+}
+
+/* Jumpscare */
+.jumpscare-scene {
+    background: black;
+    animation: jumpscareShake 0.12s infinite;
+}
+
+.jumpscare-scene h1 {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 160px;
+    color: red;
+    text-shadow: 0 0 30px red;
+}
+
+@keyframes jumpscareShake {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(12px, -8px);
+    }
+
+    50% {
+        transform: translate(-10px, 8px);
+    }
+
+    75% {
+        transform: translate(8px, 10px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.final-door {
+    position: absolute;
+    top: 45%;
+    padding: 20px 30px;
+    font-size: 22px;
+}
+
+.final-door-left {
+    left: 25%;
+}
+
+.final-door-right {
+    right: 25%;
+}
+
+.satan-scene .background {
+    animation: satanShake 0.15s infinite;
+}
+
+/* Stop rystelse */
+.satan-scene.stop-shake .background {
+    animation: none;
+}
+
+/* Dialog står stille */
+.satan-scene .dialog-box {
+    position: absolute;
+    z-index: 100;
+}
+
+@keyframes satanShake {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(10px, -6px);
+    }
+
+    50% {
+        transform: translate(-8px, 8px);
+    }
+
+    75% {
+        transform: translate(6px, 10px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.demon-instruction {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid red;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 22px;
+    z-index: 10;
+}
+
+.demon {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    z-index: 20;
+}
+
+/* Demon 1 */
+.demon1 {
+    animation: demonMoveOne 22s infinite alternate;
+}
+
+/* Demon 2 */
+.demon2 {
+    animation: demonMoveTwo 1.9s infinite alternate;
+}
+
+/* Demon 3 */
+.demon3 {
+    animation: demonMoveThree 1.7s infinite alternate;
+}
+
+@keyframes demonMoveOne {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(100px, -60px);
+    }
+
+    50% {
+        transform: translate(-80px, 30px);
+    }
+
+    75% {
+        transform: translate(120px, 70px);
+    }
+
+    100% {
+        transform: translate(-100px, -40px);
+    }
+}
+
+@keyframes demonMoveTwo {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-140px, 60px);
+    }
+
+    50% {
+        transform: translate(110px, -90px);
+    }
+
+    75% {
+        transform: translate(-70px, -50px);
+    }
+
+    100% {
+        transform: translate(130px, 40px);
+    }
+}
+
+@keyframes demonMoveThree {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translate(100px, 100px);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translate(-120px, -70px);
+        opacity: 1;
+    }
+
+    75% {
+        transform: translate(140px, -50px);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translate(-130px, 90px);
+        opacity: 1;
+    }
+}
+
+.satan-reply-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.satan-reply-buttons button {
+    margin-top: 12px;
+}
