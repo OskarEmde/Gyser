@@ -14,20 +14,25 @@
     <!-- INTRO VIDEO -->
     <section class="scene active" id="scene-intro">
         <video class="bg-video" id="introVideo" autoplay muted loop playsinline>
-            <source src="assest/video/eksempelintro.mp4" type="video/mp4">
+            <source src="assest/video/intro.mp4" type="video/mp4">
         </video>
+
+        <button class="sound-button" id="soundButton" type="button">
+            🔇 Lyd fra
+        </button>
 
         <div class="text-box">
             <h1>Velkommen</h1>
             <p>Klik på skærmen for at starte.</p>
             <p>Find genstande, løs gåder og overlev.</p>
         </div>
-
     </section>
 
     <!-- INTRODUKTIONS SCENE -->
     <section class="scene" id="scene-introduction">
-        <img class="background" src="" alt="Introduktion">
+        <img class="background" src="assest/billeder/room 2 door closed.png" alt="Introduktion">
+
+        <audio id="dystert" src="assest/lyd/dyster.mp3"></audio>
 
         <div class="text-box">
             <h1>Helvede</h1>
@@ -47,7 +52,7 @@
 
     <!-- SCENE 2 -->
     <section class="scene" id="scene-bag">
-        <img class="background" src="assest/billeder/eksempelscene2.png" alt="Scene 2 baggrund">
+        <img class="background" src="assest/billeder/room%201.1%20door%20closed.png" alt="Scene 2 baggrund">
 
         <button class="click-object bag" data-next="scene-inside-bag">
             Taske
@@ -56,7 +61,7 @@
 
     <!-- SCENE 3: INDE I TASKEN -->
     <section class="scene" id="scene-inside-bag">
-        <img class="background" src="" alt="Inde i tasken">
+        <img class="background" src="assest/billeder/insidebag.png" alt="Inde i tasken">
 
         <button class="item flashlight" data-item="flashlight">Lommelygte</button>
         <button class="item key" data-item="key">Nøgle</button>
@@ -69,10 +74,10 @@
 
     <!-- SCENE 4 -->
     <section class="scene" id="scene-door">
-        <img class="background" src="" alt="Tilbage i rummet">
+        <img class="background" src="assest/billeder/room%201.1%20door%20closed.png" alt="Tilbage i rummet">
 
         <button class="arrow door-arrow" data-next="scene-room">
-            ➜
+            <img class="arrow-img" src="assest/billeder/venstrepil.png">
         </button>
 
         <div class="hotbar" id="hotbar"></div>
@@ -80,26 +85,50 @@
 
     <!-- SCENE 5: RUM MED KOMMODE -->
     <section class="scene" id="scene-room">
-        <img class="background" src="" alt="Nyt rum">
+        <img class="background" src="assest/billeder/room%201.2.png" alt="Nyt rum">
 
-        <button class="click-object dresser" id="dresser">
-            Kommode
+        <button class="click-object dresser" id="dresser" data-next="scene-dresser-closeup">
+            Gåde på kommode
         </button>
 
-        <button class="arrow hidden" id="next-door-arrow" data-next="scene-demon-room">
-            ➜
+        <section class="kommodebillede">
+            <img class="kommode" src="assest/billeder/Mimic stagnant.png" alt="Kommode">
+        </section>
+
+        <button class="arrow door-arrow hidden"
+                id="next-door-arrow"
+                data-next="scene-demon-room">
+
+            <img class="arrow-img-højre"
+                 src="assest/billeder/venstrepil.png">
         </button>
-
-        <div class="riddle-box hidden" id="riddleBox">
-            <h2>Gåde</h2>
-            <p>Jeg følger dig altid, men forsvinder i mørket. Hvad er jeg?</p>
-
-            <button data-answer="wrong">Et spøgelse</button>
-            <button data-answer="correct">Din skygge</button>
-            <button data-answer="wrong">En dør</button>
-        </div>
 
         <div class="hotbar" id="hotbar2"></div>
+    </section>
+
+    id="next-door-arrow" data-next="scene-demon-room">
+
+    <!-- SCENE 6: KOMMODE CLOSE-UP -->
+    <section class="scene" id="scene-dresser-closeup">
+        <img class="backgroundgådehvid" src="assest/billeder/hvid.png" alt="Kommode tæt på">
+        <img class="backgroundgåde" src="assest/billeder/Mimic%20Riddle.png" alt="Kommode tæt på">
+
+        <div class="riddle-box" id="riddleBox">
+            <h2>Gåde</h2>
+
+            <button data-answer="wrong">1. MAMMON, THE SIN OG GREED</button>
+            <button data-answer="correct">2. ASMODEUS, THE SIN OF LUST</button>
+            <button data-answer="wrong">3. LEVIATHAN, THE SIN OF ENVY</button>
+            <button data-answer="wrong">4. BEELZBUB, THE SIN OG GLUTTONY</button>
+            <button data-answer="wrong">5. BELPHEGOR, THE SIN OF SLOTH</button>
+            <button data-answer="wrong">6. SATAN, THE SIN OF WRATH</button>
+        </div>
+
+        <button class="tilbage" data-next="scene-room">
+            Tilbage
+        </button>
+
+        <div class="hotbar" id="hotbar3"></div>
     </section>
 
     <!-- DØD SCENE -->
@@ -118,21 +147,29 @@
 
     <!-- DEMON ROOM -->
     <section class="scene" id="scene-demon-room">
-        <img class="background" src="" alt="Dæmon rum">
+        <img class="background" src="assest/billeder/room%201.3.png" alt="Dæmon rum">
 
-        <audio id="whisperSound" src=""></audio>
+        <audio id="whisperSound" src="assest/lyd/catch-us.mp3"></audio>
 
         <div class="timer">
-            Tid: <span id="timer">15</span>
+            Tid: <span id="timer">30</span>
         </div>
 
         <div class="demon-instruction">
             Fang de 3 dæmoner før tiden løber ud!
         </div>
 
-        <button class="demon demon1">Dæmon</button>
-        <button class="demon demon2">Dæmon</button>
-        <button class="demon demon3">Dæmon</button>
+        <button class="demon demon1">
+            <img class="the-stalker" src="assest/billeder/the-stalker-demon.png" alt="Dæmon">
+        </button>
+
+        <button class="demon demon2">
+            <img class="the-stalker" src="assest/billeder/the-stalker-demon.png" alt="Dæmon">
+        </button>
+
+        <button class="demon demon3">
+            <img class="the-stalker" src="assest/billeder/the-stalker-demon.png" alt="Dæmon">
+        </button>
 
         <button class="locked-door" id="lockedDoor">
             Låst dør
@@ -147,9 +184,9 @@
 
     <!-- SCENE 7: NYT RUM EFTER LÅST DØR -->
     <section class="scene" id="scene-after-locked-door">
-        <img class="background" src="" alt="Nyt rum efter låst dør">
+        <img class="background" src="assest/billeder/room%203%20door%20closed.png" alt="Nyt rum efter låst dør">
 
-        <audio id="screamSound" src=""></audio>
+        <audio id="screamSound" src="assest/lyd/skrig1.mp3"></audio>
         <audio id="thoughtSound" src=""></audio>
 
         <div class="text-box small">
@@ -165,7 +202,7 @@
 
     <!-- SCENE 8: INDE I SKABET -->
     <section class="scene" id="scene-inside-closet">
-        <img class="background" src="" alt="Inde i skabet">
+        <img class="background" src="assest/billeder/inside%20closet.png" alt="Inde i skabet">
 
         <audio id="closetSound" src=""></audio>
 
@@ -176,16 +213,15 @@
 
     <!-- SCENE 9: JUMPSCARE -->
     <section class="scene jumpscare-scene" id="scene-jumpscare">
-        <img class="background" src="" alt="Jumpscare">
+        <img class="background" src="assest/billeder/closet%20jumpscare.png" alt="Jumpscare">
 
-        <audio id="jumpscareSound" src=""></audio>
+        <audio id="jumpscareSound" src="assest/lyd/monsterskrig.mp3"></audio>
 
-        <h1>!</h1>
     </section>
 
     <!-- SCENE 10: DIALOG MED DÆMON -->
     <section class="scene" id="scene-demon-dialog">
-        <img class="background" src="" alt="Dæmon dialog">
+        <img class="background" src="assest/billeder/closet%20jumpscare.png" alt="Dæmon dialog">
 
         <div class="dialog-box">
             <h2>Dæmonen</h2>
@@ -208,7 +244,7 @@
 
     <!-- SCENE: EFTER DÆMONEN FLYGTER -->
     <section class="scene" id="scene-two-doors">
-        <img class="background" src="" alt="To døre">
+        <img class="background" src="assest/billeder/last%20room.png" alt="To døre">
 
         <div class="text-box small">
             Dæmonen flygter. Du kravler ud af skabet og ser to døre.
@@ -227,7 +263,10 @@
 
     <!-- SATAN KOMMER FREM -->
     <section class="scene satan-scene" id="scene-satan-appears">
-        <img class="background" src="" alt="Satan kommer frem">
+        <img class="background" src="assest/billeder/last%20room.png" alt="Satan kommer frem">
+        <img class="satan" src="assest/billeder/satan.png" alt="satan er fremme">
+
+        <audio id="roomShakeSound" src="assest/lyd/roomshake.mp3"></audio>
 
         <div class="dialog-box">
             <h2>Satan</h2>
@@ -244,7 +283,7 @@
 
     <!-- SATANS GÅDE -->
     <section class="scene" id="scene-satan-riddle">
-        <img class="background" src="" alt="Satans gåde">
+        <img class="background" src="assest/billeder/last%20room.png" alt="Satans gåde">
 
         <div class="dialog-box">
             <h2>Satan</h2>
@@ -277,12 +316,13 @@
 
     <!-- HØJRE DØR VALG -->
     <section class="scene" id="scene-right-door-choice">
-        <img class="background" src="" alt="Sidste valg">
+        <img class="background" src="assest/billeder/room%201.2.png" alt="">
+        <img class="satan" src="assest/billeder/satan.png" alt="satan er fremme">
 
         <div class="dialog-box">
             <h2>Din ven</h2>
             <p>
-                Bag døren ser du din ven fanget bag Satans skikkelse.
+                Bag døren ser du din ven fanget i Satans krop.
                 Du har ét sidste valg.
             </p>
 
@@ -298,15 +338,28 @@
         <div class="hotbar" id="hotbar7"></div>
     </section>
 
+    <!-- VIDEO ENDING -->
+    <section class="scene" id="scene-good-ending-video">
+
+        <video class="good-ending-vid" id="goodEndingVideo" autoplay>
+            <source src="assest/video/goodending.mp4" type="video/mp4">
+        </video>
+
+    </section>
+
     <!-- GOOD ENDING -->
     <section class="scene win-scene" id="scene-ending-save-friend">
+
         <h1>Du reddede din ven</h1>
+
         <p>
-            Du åbner bogen og læser ordene højt. Satan skriger, lyset bryder frem,
+            Du åbner bogen og læser ordene højt.
+            Satan skriger, lyset bryder frem,
             og din ven falder sammen — fri.
         </p>
 
         <button onclick="restartGame()">Spil igen</button>
+
     </section>
 
 </main>

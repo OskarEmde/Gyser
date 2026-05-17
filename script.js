@@ -3,7 +3,7 @@ const scenes = document.querySelectorAll(".scene");
 let inventory = [];
 let selectedItem = null;
 let demonTimer = null;
-let timeLeft = 10;
+let timeLeft = 30;
 let demonsLeft = 3;
 let satanDialogIndex = 0;
 
@@ -63,6 +63,10 @@ const satanDialogLines = [
     }
 ];
 
+/* =========================
+   SCENE SKIFT
+========================= */
+
 function showScene(sceneId) {
     scenes.forEach(scene => scene.classList.remove("active"));
 
@@ -75,6 +79,10 @@ function showScene(sceneId) {
 
     nextScene.classList.add("active");
     renderHotbars();
+
+    if (sceneId === "scene-introduction") {
+        playSound("dystert");
+    }
 
     if (sceneId !== "scene-death") {
         checkpointScene = sceneId;
@@ -103,6 +111,14 @@ function showScene(sceneId) {
     }
 
     if (sceneId === "scene-satan-appears") {
+        const roomShakeSound = document.getElementById("roomShakeSound");
+
+        if (roomShakeSound) {
+            roomShakeSound.loop = true;
+            roomShakeSound.currentTime = 0;
+            roomShakeSound.play().catch(() => {});
+        }
+
         satanDialogIndex = 0;
 
         const satanScene = document.getElementById("scene-satan-appears");
@@ -113,9 +129,21 @@ function showScene(sceneId) {
 
         updateSatanDialog();
     }
+
+    if (sceneId === "scene-good-ending-video") {
+        const goodEndingVideo = document.getElementById("goodEndingVideo");
+
+        if (goodEndingVideo) {
+            goodEndingVideo.currentTime = 0;
+            goodEndingVideo.play().catch(() => {});
+        }
+    }
 }
 
-/* LYD */
+/* =========================
+   LYD
+========================= */
+
 function playSound(soundId) {
     const sound = document.getElementById(soundId);
 
@@ -125,16 +153,40 @@ function playSound(soundId) {
     }
 }
 
-/* INTRO */
+function stopSound(soundId) {
+    const sound = document.getElementById(soundId);
+
+    if (sound) {
+        sound.pause();
+        sound.currentTime = 0;
+        sound.loop = false;
+    }
+}
+
+/* =========================
+   INTRO
+========================= */
+
 const introScene = document.getElementById("scene-intro");
 
 if (introScene) {
     introScene.onclick = function () {
+        const introVideo = document.getElementById("introVideo");
+
+        if (introVideo) {
+            introVideo.pause();
+            introVideo.muted = true;
+            introVideo.currentTime = 0;
+        }
+
         showScene("scene-introduction");
     };
 }
 
-/* Gå videre-knapper */
+/* =========================
+   GÅ VIDERE KNAPPER
+========================= */
+
 document.querySelectorAll("[data-next]").forEach(button => {
     button.onclick = function (event) {
         event.stopPropagation();
@@ -142,7 +194,10 @@ document.querySelectorAll("[data-next]").forEach(button => {
     };
 });
 
-/* INVENTORY */
+/* =========================
+   INVENTORY
+========================= */
+
 function addItem(itemName) {
     if (!inventory.includes(itemName)) {
         inventory.push(itemName);
@@ -201,15 +256,18 @@ function getItemName(item) {
     return item;
 }
 
-/* GÅDE MED KOMMODE */
+/* =========================
+   GÅDE MED KOMMODE
+========================= */
+
 const dresser = document.getElementById("dresser");
 const riddleBox = document.getElementById("riddleBox");
 const nextDoorArrow = document.getElementById("next-door-arrow");
 
-if (dresser && riddleBox) {
+if (dresser) {
     dresser.onclick = function (event) {
         event.stopPropagation();
-        riddleBox.classList.remove("hidden");
+        showScene("scene-dresser-closeup");
     };
 }
 
@@ -218,20 +276,24 @@ document.querySelectorAll("[data-answer]").forEach(answer => {
         event.stopPropagation();
 
         if (answer.dataset.answer === "correct") {
-            riddleBox.classList.add("hidden");
-            dresser.classList.add("hidden");
-            nextDoorArrow.classList.remove("hidden");
+            if (dresser) dresser.classList.add("hidden");
+            if (nextDoorArrow) nextDoorArrow.classList.remove("hidden");
+
+            showScene("scene-room");
         } else {
             showScene("scene-death");
         }
     };
 });
 
-/* DEMON ROOM */
+/* =========================
+   DEMON ROOM
+========================= */
+
 function startDemonRoom() {
     clearInterval(demonTimer);
 
-    timeLeft = 10;
+    timeLeft = 30;
     demonsLeft = 3;
 
     const timerElement = document.getElementById("timer");
@@ -273,7 +335,10 @@ document.querySelectorAll(".demon").forEach(demon => {
     };
 });
 
-/* LÅST DØR */
+/* =========================
+   LÅST DØR
+========================= */
+
 const lockedDoor = document.getElementById("lockedDoor");
 const lockedText = document.getElementById("lockedText");
 
@@ -293,7 +358,10 @@ if (lockedDoor && lockedText) {
     };
 }
 
-/* SKAB */
+/* =========================
+   SKAB
+========================= */
+
 const closet = document.getElementById("closet");
 
 if (closet) {
@@ -303,7 +371,10 @@ if (closet) {
     };
 }
 
-/* INDE I SKABET */
+/* =========================
+   INDE I SKABET
+========================= */
+
 const insideClosetScene = document.getElementById("scene-inside-closet");
 
 if (insideClosetScene) {
@@ -316,7 +387,10 @@ if (insideClosetScene) {
     };
 }
 
-/* VALG VED DÆMON */
+/* =========================
+   VALG VED DÆMON
+========================= */
+
 const attackDemonButton = document.getElementById("attackDemonButton");
 
 if (attackDemonButton) {
@@ -340,7 +414,10 @@ if (useFlashlightButton) {
     };
 }
 
-/* TO DØRE - FØRST KOMMER SATAN */
+/* =========================
+   TO DØRE - FØRST KOMMER SATAN
+========================= */
+
 const leftFinalDoor = document.getElementById("leftFinalDoor");
 const rightFinalDoor = document.getElementById("rightFinalDoor");
 
@@ -358,7 +435,10 @@ if (rightFinalDoor) {
     };
 }
 
-/* SATAN DIALOG MED 2 SVAR */
+/* =========================
+   SATAN DIALOG
+========================= */
+
 const satanDialogText = document.getElementById("satanDialogText");
 const satanReplyOne = document.getElementById("satanReplyOne");
 const satanReplyTwo = document.getElementById("satanReplyTwo");
@@ -380,6 +460,7 @@ function continueSatanDialog(event) {
 
     if (satanDialogIndex >= 1 && satanScene) {
         satanScene.classList.add("stop-shake");
+        stopSound("roomShakeSound");
     }
 
     if (satanDialogIndex < satanDialogLines.length) {
@@ -405,7 +486,10 @@ if (satanReplyTwo) {
     satanReplyTwo.onclick = continueSatanDialog;
 }
 
-/* SATANS GÅDE - NU VÆLGER MAN DØR */
+/* =========================
+   SATANS GÅDE - DØRVALG
+========================= */
+
 const chooseLeftDoor = document.getElementById("chooseLeftDoor");
 const chooseRightDoor = document.getElementById("chooseRightDoor");
 
@@ -423,7 +507,10 @@ if (chooseRightDoor) {
     };
 }
 
-/* SIDSTE VALG */
+/* =========================
+   SIDSTE VALG
+========================= */
+
 const shootSatan = document.getElementById("shootSatan");
 const useBible = document.getElementById("useBible");
 
@@ -444,14 +531,29 @@ if (useBible) {
         event.stopPropagation();
 
         if (inventory.includes("bible")) {
-            showScene("scene-ending-save-friend");
+            showScene("scene-good-ending-video");
         } else {
             showScene("scene-death");
         }
     };
 }
 
-/* CHECKPOINT */
+/* =========================
+   GOOD ENDING VIDEO
+========================= */
+
+const goodEndingVideo = document.getElementById("goodEndingVideo");
+
+if (goodEndingVideo) {
+    goodEndingVideo.onended = function () {
+        showScene("scene-ending-save-friend");
+    };
+}
+
+/* =========================
+   CHECKPOINT
+========================= */
+
 function restartFromCheckpoint() {
     clearInterval(demonTimer);
 
@@ -464,12 +566,15 @@ function restartFromCheckpoint() {
 
 window.restartFromCheckpoint = restartFromCheckpoint;
 
-/* RESTART */
+/* =========================
+   RESTART
+========================= */
+
 function restartGame() {
     inventory = [];
     selectedItem = null;
     demonsLeft = 3;
-    timeLeft = 10;
+    timeLeft = 30;
     satanDialogIndex = 0;
 
     checkpointScene = "scene-intro";
@@ -477,6 +582,8 @@ function restartGame() {
     checkpointSelectedItem = null;
 
     clearInterval(demonTimer);
+
+    stopSound("roomShakeSound");
 
     document.querySelectorAll(".item, .demon").forEach(el => {
         el.classList.remove("hidden");
@@ -498,3 +605,32 @@ function restartGame() {
 }
 
 window.restartGame = restartGame;
+
+/* =========================
+   INTRO VIDEO LYD-KNAP
+========================= */
+
+const introVideo = document.getElementById("introVideo");
+const soundButton = document.getElementById("soundButton");
+
+let soundOn = false;
+
+if (introVideo && soundButton) {
+    soundButton.onclick = function (event) {
+        event.stopPropagation();
+
+        if (!soundOn) {
+            introVideo.muted = false;
+            introVideo.volume = 0.5;
+            introVideo.play().catch(() => {});
+
+            soundButton.textContent = "🔊 Lyd til";
+            soundOn = true;
+        } else {
+            introVideo.muted = true;
+
+            soundButton.textContent = "🔇 Lyd fra";
+            soundOn = false;
+        }
+    };
+}
