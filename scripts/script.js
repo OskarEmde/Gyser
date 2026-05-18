@@ -135,8 +135,14 @@ function showScene(sceneId) {
     const goodEndingVideo = document.getElementById("goodEndingVideo");
 
     if (goodEndingVideo) {
+      goodEndingVideo.pause();
       goodEndingVideo.currentTime = 0;
-      goodEndingVideo.play().catch(() => {});
+
+      setTimeout(() => {
+        goodEndingVideo.play().catch(error => {
+          console.log("Good ending video kunne ikke starte:", error);
+        });
+      }, 100);
     }
   }
 
@@ -145,8 +151,15 @@ function showScene(sceneId) {
     const semiGoodEndingVideo = document.getElementById("semiGoodEndingVideo");
 
     if (semiGoodEndingVideo) {
+      semiGoodEndingVideo.pause();
       semiGoodEndingVideo.currentTime = 0;
-      semiGoodEndingVideo.play().catch(() => {});
+      semiGoodEndingVideo.muted = true;
+
+      setTimeout(() => {
+        semiGoodEndingVideo.play().catch(error => {
+          console.log("Semi good ending video kunne ikke starte:", error);
+        });
+      }, 100);
     }
   }
 }
@@ -550,7 +563,7 @@ if (useBible) {
 }
 
 /* =========================
-   GOOD ENDING VIDEO
+   VIDEO ENDINGS
 ========================= */
 
 const goodEndingVideo = document.getElementById("goodEndingVideo");
@@ -561,19 +574,13 @@ if (goodEndingVideo) {
   };
 }
 
-
 const semiGoodEndingVideo = document.getElementById("semiGoodEndingVideo");
 
 if (semiGoodEndingVideo) {
-
-  semiGoodEndingVideo.currentTime = 0;
-  semiGoodEndingVideo.muted = true;
-
   semiGoodEndingVideo.onended = function () {
     showScene("scene-ending-escape");
   };
 }
-
 
 /* =========================
    CHECKPOINT

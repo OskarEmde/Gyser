@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horror Game</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+    <script defer src="scripts/script.js"></script>
 </head>
 <body>
 
@@ -117,9 +117,9 @@
             <h2>Gåde</h2>
 
             <button data-answer="wrong">1. MAMMON, THE SIN OG GREED</button>
-            <button data-answer="correct">2. ASMODEUS, THE SIN OF LUST</button>
+            <button data-answer="wrong">2. ASMODEUS, THE SIN OF LUST</button>
             <button data-answer="wrong">3. LEVIATHAN, THE SIN OF ENVY</button>
-            <button data-answer="wrong">4. BEELZBUB, THE SIN OG GLUTTONY</button>
+            <button data-answer="correct">4. BEELZBUB, THE SIN OG GLUTTONY</button>
             <button data-answer="wrong">5. BELPHEGOR, THE SIN OF SLOTH</button>
             <button data-answer="wrong">6. SATAN, THE SIN OF WRATH</button>
         </div>
@@ -287,8 +287,10 @@
 
         <div class="dialog-box">
             <h2>Satan</h2>
+
             <p>
-                Én dør lader dig slippe fri. Den anden tvinger dig til at møde sandheden.
+                Én dør lader dig slippe fri.
+                Den anden tvinger dig til at møde sandheden.
                 Og foran dig ligger en pistol.
             </p>
 
@@ -301,6 +303,22 @@
             </button>
 
         </div>
+    </section>
+
+    <!-- SEMI GOOD ENDING VIDEO -->
+    <section class="scene" id="scene-semi-good-ending-video">
+
+        <video class="good-ending-vid"
+               id="semiGoodEndingVideo"
+               muted
+               playsinline
+               preload="auto"
+               controls>
+
+            <source src="assest/video/semigoodending.mp4" type="video/mp4">
+
+        </video>
+
     </section>
 
     <!-- VENSTRE DØR SLUTNING -->
