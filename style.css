@@ -716,7 +716,7 @@ button:hover {
     width: 950px;
     height: auto;
 
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
 }
 
