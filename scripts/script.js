@@ -13,53 +13,28 @@ let checkpointSelectedItem = null;
 
 const satanDialogLines = [
   {
-    satan: "Troede du virkelig, at dørene ville åbne for dig?",
-    replies: [
-      "Hvad har du gjort ved min ven?",
-      "Jeg er ikke bange for dig."
-    ]
+    speaker: "Kai",
+    text: "Vent.. er det.. er det dig, Mara!?"
   },
   {
-    satan: "Din ven er stadig herinde et sted. Fanget. Svag. Bange.",
-    replies: [
-      "Så er han stadig i live.",
-      "Du lyver. Det gør du altid."
-    ]
+    speaker: "Satan",
+    text: "Måske én gang... men ikke længere."
   },
   {
-    satan: "I lavede ritualet sammen. Du åbnede døren for mig.",
-    replies: [
-      "Det skulle aldrig være sket.",
-      "Så lukker jeg den igen."
-    ]
+    speaker: "Kai",
+    text: "Hvad har du gjort her!?"
   },
   {
-    satan: "Du har båret biblen hele vejen. Tror du virkelig, den kan redde ham?",
-    replies: [
-      "Hvis der er en chance, tager jeg den.",
-      "Det finder vi snart ud af."
-    ]
+    speaker: "Kai",
+    text: "Mara! Mara!? Kan du høre mig!?"
   },
   {
-    satan: "Så lad os gøre det sjovere. Her. Tag pistolen.",
-    replies: [
-      "Hvorfor giver du mig et våben?",
-      "Du prøver at narre mig."
-    ]
+    speaker: "Satan",
+    text: "Giv op, hun er død og væk. Ligesom du vil være."
   },
   {
-    satan: "Fordi du stadig ikke forstår. Du kan ikke skyde mørket væk.",
-    replies: [
-      "Så må jeg finde en anden måde.",
-      "Måske er pistolen ikke til dig."
-    ]
-  },
-  {
-    satan: "Vælg nu. Venstre dør, og du slipper fri. Højre dør, og du møder sandheden.",
-    replies: [
-      "Jeg vælger selv, hvordan det ender.",
-      "Jeg efterlader ikke min ven."
-    ]
+    speaker: "Kai",
+    text: "Nej, jeg tror dig ikke!"
   }
 ];
 
@@ -464,15 +439,14 @@ if (rightFinalDoor) {
 ========================= */
 
 const satanDialogText = document.getElementById("satanDialogText");
-const satanReplyOne = document.getElementById("satanReplyOne");
-const satanReplyTwo = document.getElementById("satanReplyTwo");
+const satanSpeaker = document.getElementById("satanSpeaker");
+const satanDialogBox = document.getElementById("satanDialogBox");
 
 function updateSatanDialog() {
-  if (!satanDialogText || !satanReplyOne || !satanReplyTwo) return;
+  if (!satanDialogText || !satanSpeaker) return;
 
-  satanDialogText.textContent = satanDialogLines[satanDialogIndex].satan;
-  satanReplyOne.textContent = satanDialogLines[satanDialogIndex].replies[0];
-  satanReplyTwo.textContent = satanDialogLines[satanDialogIndex].replies[1];
+  satanSpeaker.textContent = satanDialogLines[satanDialogIndex].speaker;
+  satanDialogText.textContent = satanDialogLines[satanDialogIndex].text;
 }
 
 function continueSatanDialog(event) {
@@ -502,12 +476,14 @@ function continueSatanDialog(event) {
   }
 }
 
-if (satanReplyOne) {
-  satanReplyOne.onclick = continueSatanDialog;
+const satanScene = document.getElementById("scene-satan-appears");
+
+if (satanScene) {
+  satanScene.onclick = continueSatanDialog;
 }
 
-if (satanReplyTwo) {
-  satanReplyTwo.onclick = continueSatanDialog;
+if (satanDialogBox) {
+  satanDialogBox.onclick = continueSatanDialog;
 }
 
 /* =========================
